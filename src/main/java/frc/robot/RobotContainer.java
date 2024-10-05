@@ -18,8 +18,10 @@ import edu.wpi.first.wpilibj.xrp.XRPOnBoardIO;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -35,6 +37,10 @@ public class RobotContainer {
 
   // Assumes a gamepad plugged into channel 0
   private final Joystick m_controller = new Joystick(0);
+
+  //create xbox controller
+  private final CommandXboxController driver = new CommandXboxController(0);
+
 
   // Create SmartDashboard chooser for autonomous routines
   private final SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -62,7 +68,12 @@ public class RobotContainer {
         .onTrue(new PrintCommand("USER Button Pressed"))
         .onFalse(new PrintCommand("USER Button Released"));
 
-    JoystickButton joystickAButton = new JoystickButton(m_controller, 1);
+    //create button bindings for joystick
+    Trigger leftJoyStick = driver.leftStick();
+    Trigger rightJoyStick = driver.rightStick();
+    m_drivetrain.tankDrive(driver.getLeftX(), driver.getLeftY());
+    
+    Trigger joystickAButton = new JoystickButton(m_controller, 1);
     joystickAButton
         .onTrue(new InstantCommand(() -> m_arm.setAngle(45.0), m_arm))
         .onFalse(new InstantCommand(() -> m_arm.setAngle(0.0), m_arm));
@@ -71,6 +82,7 @@ public class RobotContainer {
     joystickBButton
         .onTrue(new InstantCommand(() -> m_arm.setAngle(90.0), m_arm))
         .onFalse(new InstantCommand(() -> m_arm.setAngle(0.0), m_arm));
+  
 
     // Setup SmartDashboard options
     m_chooser.setDefaultOption("Auto Routine Distance", new AutonomousDistance(m_drivetrain));
