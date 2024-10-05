@@ -41,6 +41,15 @@ public class RobotContainer {
   //create xbox controller
   private final CommandXboxController driver = new CommandXboxController(0);
 
+  //method to get controller
+  public CommandXboxController getController(){
+      return driver;
+  }
+
+  //method to get drivetrain
+  public Drivetrain getDrivetrain(){
+    return m_drivetrain;
+  }
 
   // Create SmartDashboard chooser for autonomous routines
   private final SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -71,7 +80,6 @@ public class RobotContainer {
     //create button bindings for joystick
     Trigger leftJoyStick = driver.leftStick();
     Trigger rightJoyStick = driver.rightStick();
-    m_drivetrain.tankDrive(driver.getLeftX(), driver.getLeftY());
     
     Trigger joystickAButton = new JoystickButton(m_controller, 1);
     joystickAButton
@@ -108,4 +116,7 @@ public class RobotContainer {
     return new ArcadeDrive(
         m_drivetrain, () -> -m_controller.getRawAxis(1), () -> -m_controller.getRawAxis(2));
   }
-}
+
+  }
+  
+

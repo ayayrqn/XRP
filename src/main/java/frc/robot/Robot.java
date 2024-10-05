@@ -43,7 +43,9 @@ public class Robot extends TimedRobot {
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
-    CommandScheduler.getInstance().run();
+
+    //CommandScheduler.getInstance().run();
+    m_robotContainer.getDrivetrain().tankDrive(-m_robotContainer.getController().getLeftY(), -m_robotContainer.getController().getRightY());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -81,9 +83,7 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {
-    
-  }
+  public void teleopPeriodic() {}
 
   @Override
   public void testInit() {
